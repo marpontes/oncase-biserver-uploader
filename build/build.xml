@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<!--
+   @marpontes
+   Builds the lib
+  -->
+
+<project name="Pentaho Token Filter" default="move" basedir="..">
+	<description>
+		Adds another filter in Spring Filter chain
+    </description>
+	
+	<!-- properties file -->
+	<property file="build/build.properties" />
+
+	<!-- class path used to compile code -->
+	<path id="compile.classpath">
+		<fileset dir="${basedir}/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- class path used to run code -->
+	<path id="run.classpath">
+		<dirset dir="${classes.dir}"/>
+		<fileset dir="${basedir}/lib">
+			<include name="**/*.jar" />
+		</fileset>		
+	</path>
+	
+	<!-- init timestamp -->
+	<target name="init">
+		<tstamp />
+	</target>
+
+	<!-- compile the code -->
+	<target name="compile" depends="init" description="compile the source ">
+		<mkdir dir="${classes.dir}" />
+		<javac source="1.6" target="1.6" srcdir="${src.dir}" destdir="${classes.dir}" debuglevel="lines,vars,source" debug="true">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+	
+	<!-- clean the dist folder -->
+	<target name="clean" description="clean up">
+		<delete dir="${dist.dir}" verbose="true" />
+	</target>
+	
+	<!-- generates the runnable jar -->
+    <target name="jar" depends="clean,compile">
+        <mkdir dir="${dist.dir}"/>
+
+        <jar destfile="${jar.file}" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Class-Path" value="${manifest.classpath}"/>
+            </manifest>
+        	<!--<zipgroupfileset  dir="${lib.dir}" />-->
+        </jar>  
+    </target>
+	
+	<target name="move" depends="jar">
+		<delete file="${test.file}" verbose="true" />
+		<copy file="${jar.file}" tofile="${test.file}" verbose="true" />
+	</target>
+
+
+</project>
