@@ -9,7 +9,10 @@ With oncase-biserver-uploader, you should simply add our lib and change your `pl
 
 ## Enabling
 
-You should only copy our JAR `oncase-biserver-uploader-X.X.X.jar` to your plugin lib folder and then add the following line to your `plugin.spring.xml`, after the `org.pentaho.platform.web.servlet.JAXRSPluginServlet` bean:
+You should only:
+
+* copy our JAR `oncase-biserver-uploader-X.X.X.jar` to your plugin lib folder and then;
+* add the following line to your `plugin.spring.xml`, after the `org.pentaho.platform.web.servlet.JAXRSPluginServlet` bean:
 
 ```xml
 <bean id="YOU_PLUGIN_ID.uploader.api" class="com.oncase.biserver.ws.UploaderREST"/>
