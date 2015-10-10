@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -15,6 +16,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import java.net.URLEncoder;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
@@ -34,7 +37,7 @@ public class UploaderREST {
 
 		@FormDataParam("endpointPath") String endpointPath,
 		@FormDataParam("queryParameters") String queryParameters
-			) throws URISyntaxException {
+			) throws URISyntaxException, UnsupportedEncodingException {
 		
 		
 		String uploadedFileLocation = DIRECTORY + fileDetail.getFileName();
@@ -52,7 +55,7 @@ public class UploaderREST {
  
 		URI pentahoBaseUrl = info.getBaseUri().resolve("../");
 		endpointPath = pentahoBaseUrl + endpointPath;
-		endpointPath += "?paramfileUrl="+filePath+queryParameters;
+		endpointPath += "?paramfileUrl="+URLEncoder.encode(filePath,"UTF-8")+queryParameters;
 
 		return Response.temporaryRedirect(new URI(endpointPath)).build();
 	}
